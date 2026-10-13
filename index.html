@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR Fácil — Gerador de QR Code gratuito</title>
+  <meta name="description" content="Gere, personalize e baixe QR Codes em PNG gratuitamente. Simples, rápido e sem cadastro." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Dependência externa: qrcodejs 1.0.0 (davidshimjs) — API: new QRCode(el, opts), QRCode.CorrectLevel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#gerador">Pular para o gerador</a>
+
+  <header class="topo">
+    <div class="container topo__inner">
+      <a href="#" class="marca" aria-label="QR Fácil, início">
+        <span class="marca__icone" aria-hidden="true"></span>QR Fácil
+      </a>
+      <span class="topo__tag">Gratuito · Sem cadastro</span>
+    </div>
+  </header>
+
+  <main id="gerador" class="container">
+    <section class="intro">
+      <h1>Crie um QR Code em segundos.</h1>
+      <p>Digite um link ou texto, ajuste as cores e baixe em PNG. Tudo acontece no seu navegador.</p>
+    </section>
+
+    <div class="grade">
+      <!-- Painel de configuração -->
+      <form id="form" class="painel" novalidate>
+        <div class="campo">
+          <label for="conteudo">URL ou texto</label>
+          <textarea id="conteudo" rows="3" maxlength="1500" placeholder="https://seusite.com.br" aria-describedby="conteudo-ajuda erro"></textarea>
+          <div class="campo__rodape">
+            <small id="conteudo-ajuda">Até 1500 caracteres.</small>
+            <small id="contador" aria-live="polite">0/1500</small>
+          </div>
+          <p id="erro" class="erro" role="alert" hidden></p>
+        </div>
+
+        <div class="campo">
+          <span class="rotulo" id="ex-label">Exemplos rápidos</span>
+          <div class="chips" role="group" aria-labelledby="ex-label">
+            <button type="button" class="chip" data-exemplo="https://github.com">Site</button>
+            <button type="button" class="chip" data-exemplo="mailto:contato@exemplo.com">E-mail</button>
+            <button type="button" class="chip" data-exemplo="tel:+5585999999999">Telefone</button>
+            <button type="button" class="chip" data-exemplo="WIFI:T:WPA;S:MinhaRede;P:senha123;;">Wi‑Fi</button>
+            <button type="button" class="chip" data-exemplo="https://wa.me/5585999999999">WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="linha">
+          <div class="campo">
+            <label for="corCodigo">Cor do código</label>
+            <div class="cor"><input type="color" id="corCodigo" value="#111827" /><span id="corCodigoTxt">#111827</span></div>
+          </div>
+          <div class="campo">
+            <label for="corFundo">Cor do fundo</label>
+            <div class="cor"><input type="color" id="corFundo" value="#ffffff" /><span id="corFundoTxt">#ffffff</span></div>
+          </div>
+        </div>
+
+        <div class="campo">
+          <span class="rotulo" id="preset-label">Presets de cores</span>
+          <div class="presets" role="group" aria-labelledby="preset-label">
+            <button type="button" class="preset" data-fg="#111827" data-bg="#ffffff" aria-label="Clássico: preto no branco"><i style="--fg:#111827;--bg:#ffffff"></i></button>
+            <button type="button" class="preset" data-fg="#0f766e" data-bg="#f0fdfa" aria-label="Verde-água"><i style="--fg:#0f766e;--bg:#f0fdfa"></i></button>
+            <button type="button" class="preset" data-fg="#1e3a8a" data-bg="#eff6ff" aria-label="Azul marinho"><i style="--fg:#1e3a8a;--bg:#eff6ff"></i></button>
+            <button type="button" class="preset" data-fg="#9a3412" data-bg="#fff7ed" aria-label="Terracota"><i style="--fg:#9a3412;--bg:#fff7ed"></i></button>
+            <button type="button" class="preset" data-fg="#ffffff" data-bg="#111827" aria-label="Invertido: branco no preto"><i style="--fg:#ffffff;--bg:#111827"></i></button>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="tamanho">Tamanho da imagem</label>
+          <select id="tamanho">
+            <option value="200">Pequeno — 200 px</option>
+            <option value="300" selected>Médio — 300 px</option>
+            <option value="500">Grande — 500 px</option>
+            <option value="800">Extra grande — 800 px</option>
+          </select>
+        </div>
+
+        <div class="acoes">
+          <button type="submit" class="btn btn--primario">Gerar QR Code</button>
+          <button type="button" id="btnCopiar" class="btn">Copiar texto</button>
+          <button type="button" id="btnLimpar" class="btn btn--fantasma">Limpar</button>
+        </div>
+      </form>
+
+      <!-- Pré-visualização -->
+      <section class="painel preview" aria-labelledby="prev-titulo">
+        <h2 id="prev-titulo">Pré-visualização</h2>
+        <div id="qrArea" class="qr-area" aria-live="polite">
+          <p class="vazio">Seu QR Code aparecerá aqui.</p>
+        </div>
+        <div class="acoes">
+          <button type="button" id="btnBaixar" class="btn btn--primario" disabled>Baixar PNG</button>
+          <button type="button" id="btnImprimir" class="btn" disabled>Imprimir</button>
+        </div>
+        <p class="aviso"><strong>Dica:</strong> teste o QR Code com a câmera do celular antes de imprimir.</p>
+      </section>
+    </div>
+
+    <section class="painel historico" aria-labelledby="hist-titulo">
+      <div class="historico__topo">
+        <h2 id="hist-titulo">Histórico recente</h2>
+        <button type="button" id="btnApagarHist" class="btn btn--fantasma btn--pequeno">Apagar histórico</button>
+      </div>
+      <ul id="listaHist" class="lista"></ul>
+      <p id="histVazio" class="vazio">Nenhum QR Code gerado ainda. O histórico fica salvo apenas neste navegador.</p>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <footer class="rodape container">
+    <p>QR Fácil · Feito com HTML, CSS e JavaScript. Nenhum dado sai do seu navegador.</p>
+  </footer>
+</body>
+</html>
