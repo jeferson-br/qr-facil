@@ -1,6 +1,7 @@
 # QR Fácil
 
 Gerador de QR Codes gratuito, feito com HTML5, CSS3 e JavaScript puro.
+link: https://jeferson-br.github.io/qr-facil/
 
 ## Estrutura
 ```
